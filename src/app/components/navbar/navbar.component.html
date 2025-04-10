@@ -1,0 +1,37 @@
+<!-- src/app/components/navbar/navbar.component.html -->
+
+<mat-toolbar color="primary">
+    <!-- Gomb, ami nyitja/csukja a sidenav-et -->
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <span style="margin-left: 1rem;">Ételrendelés</span>
+  
+    <!-- Kihúzott sorkitöltő elem, hogy a jobb oldalon lehessenek gombok -->
+    <span class="spacer"></span>
+  
+    <!-- Közvetlen linkek: -->
+    <button mat-button [routerLink]="'/home'">Home</button>
+    <button mat-button [routerLink]="'/food-list'">Ételek</button>
+    <button mat-button [routerLink]="'/order'">Rendelés</button>
+  </mat-toolbar>
+  
+  <!-- Tartalom a toolbar alatt: egy sidenav-container -->
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #drawer mode="side" [(opened)]="opened" class="example-sidenav">
+      <mat-nav-list>
+        <a mat-list-item [routerLink]="'/home'" (click)="drawer.close()">Home</a>
+        <a mat-list-item [routerLink]="'/food-list'" (click)="drawer.close()">Ételek</a>
+        <a mat-list-item [routerLink]="'/order'" (click)="drawer.close()">Rendelés</a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <!-- Ide jön bármi, amit a navbar alatti részbe helyezel.
+           Például, ha <app-navbar> körbefogja a <router-outlet>-et,
+           akkor itt is megjelenítheted <ng-content> vagy sem. -->
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

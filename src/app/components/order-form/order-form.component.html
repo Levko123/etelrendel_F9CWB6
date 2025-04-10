@@ -1,0 +1,27 @@
+<!-- Diszkrét példa: a gombot letiltjuk, ha a form éppen beküldés alatt van. -->
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Vevő neve</mat-label>
+      <input matInput formControlName="customerName">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Szállítási cím</mat-label>
+      <textarea matInput formControlName="address"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Fizetési mód</mat-label>
+      <mat-select formControlName="paymentMethod">
+        <mat-option value="cash">Készpénz</mat-option>
+        <mat-option value="card">Bankkártya</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary"
+            type="submit"
+            [disabled]="orderForm.invalid || isSubmitting">
+      Rendelés leadása
+    </button>
+  </form>
+  

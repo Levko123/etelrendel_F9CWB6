@@ -1,0 +1,14 @@
+.example-container {
+    height: calc(100vh - 64px); 
+    /* 64px a toolbar kb. magassága, hogy alatta a maradék területet betöltse */
+  }
+  
+  .example-sidenav {
+    width: 200px;
+  }
+  
+  /* A felső toolbaron belüli spacer: */
+  .spacer {
+    flex: 1 1 auto;
+  }
+  

@@ -1,12 +1,20 @@
+// src/app/app.component.ts
 import { Component } from '@angular/core';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  template: `
+    <app-navbar>
+      <!-- A router-outlet lesz az oldalsó menü melletti terület -->
+      <router-outlet></router-outlet>
+    </app-navbar>
+  `,
+  imports: [
+    NavbarComponent,
+    RouterOutlet
+  ]
 })
-export class AppComponent {
-  title = 'etelrendeles_F9CWB6';
-}
+export class AppComponent {}

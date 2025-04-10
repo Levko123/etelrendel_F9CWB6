@@ -1,0 +1,23 @@
+<!-- src/app/components/food-list/food-list.component.html -->
+<!-- Ha nincs foods$, vagy éppen betöltés alatt, mutatjuk a "loading" sablont -->
+<div *ngIf="foods$ | async as foods; else loading">
+    <mat-card *ngFor="let item of foods" style="margin: 1rem 0;">
+      <mat-card-header>
+        <mat-card-title>{{ item.name }}</mat-card-title>
+        <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        Ár: {{ item.price | currency:'HUF' }}
+      </mat-card-content>
+  
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="addToCart(item)">Kosárba</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  
+  <ng-template #loading>
+    <div>Betöltés...</div>
+  </ng-template>
+  
