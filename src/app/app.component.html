@@ -1,3 +1,19 @@
-<!-- app.component.html -->
-<app-navbar></app-navbar>
-<div>Másik tartalom...</div>
+<mat-toolbar color="primary">
+  <!-- Visszagomb csak ha nem a login vagy home oldalon vagyunk -->
+  <button *ngIf="showBackButton()" mat-icon-button (click)="goBack()" style="color: black;">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span class="logo">🍴 Wooltoora</span>
+  <span class="spacer"></span>
+
+  <a mat-button routerLink="/home" style="color: black;">Home</a>
+  <a mat-button routerLink="/food-list" style="color: black;">Ételek</a>
+  <a mat-button routerLink="/cart" style="color: black;">Kosár</a>
+  <a mat-button *ngIf="isAdmin" routerLink="/admin-orders" style="color: black;">Admin</a>
+  <a mat-button *ngIf="isLoggedIn" routerLink="/my-orders" style="color: black;">Rendeléseim</a>
+  <button mat-button *ngIf="isLoggedIn" (click)="logout()" style="color: black;">Kijelentkezés</button>
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>

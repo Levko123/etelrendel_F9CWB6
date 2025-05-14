@@ -1,27 +1,52 @@
-<!-- Diszkrét példa: a gombot letiltjuk, ha a form éppen beküldés alatt van. -->
-<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>Vevő neve</mat-label>
-      <input matInput formControlName="customerName">
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Szállítási cím</mat-label>
-      <textarea matInput formControlName="address"></textarea>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Fizetési mód</mat-label>
-      <mat-select formControlName="paymentMethod">
-        <mat-option value="cash">Készpénz</mat-option>
-        <mat-option value="card">Bankkártya</mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <button mat-raised-button color="primary"
-            type="submit"
-            [disabled]="orderForm.invalid || isSubmitting">
-      Rendelés leadása
-    </button>
-  </form>
-  
+<mat-card>
+  <mat-card-title>Rendelés összegzése</mat-card-title>
+  <mat-card-content>
+    <div *ngIf="orderItems.length > 0; else emptyCart">
+      <div *ngFor="let item of orderItems" style="margin-bottom: 0.5rem;">
+        <p>
+          <strong>{{ item.name }}</strong>
+          (x{{ item.quantity }}) – {{ item.price * item.quantity | currency:'HUF' }}
+        </p>
+      </div>
+      <p><strong>Összesen:</strong> {{ total | currency:'HUF' }}</p>
+    </div>
+    <ng-template #emptyCart>
+      <p>A kosár üres.</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
+
+<br>
+
+<mat-card *ngIf="orderItems.length > 0">
+  <mat-card-title>Vásárlói adatok</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Teljes név</mat-label>
+        <input matInput formControlName="customerName" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Cím</mat-label>
+        <input matInput formControlName="address" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Fizetési mód</mat-label>
+        <mat-select formControlName="paymentMethod">
+          <mat-option value="cash">Készpénz</mat-option>
+          <mat-option value="card">Bankkártya</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="orderForm.invalid || isSubmitting">
+        Rendelés leadása
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

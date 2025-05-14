@@ -1,0 +1,22 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+  }
+  
+  mat-card {
+    width: 400px;
+    padding: 20px;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .error-msg {
+    color: red;
+    margin-top: 10px;
+  }
+  

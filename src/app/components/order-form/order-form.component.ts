@@ -8,8 +8,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-
-import { OrderService } from '../../services/order.service';
+import { CartService, CartItem } from '../../services/cart.service';
+import { getDatabase, ref, push, set } from 'firebase/database';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   standalone: true,
@@ -23,19 +24,24 @@ import { OrderService } from '../../services/order.service';
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule, 
   ]
 })
 export class OrderFormComponent {
   orderForm!: FormGroup;
   isSubmitting = false;
+  orderItems: CartItem[] = [];
+  total = 0;
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrderService,
+    private cartService: CartService,
     private router: Router
   ) {
     this.createForm();
+    this.orderItems = this.cartService.getStoredOrder();
+    this.total = this.orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }
 
   createForm() {
@@ -47,24 +53,38 @@ export class OrderFormComponent {
   }
 
   onSubmit() {
+    console.log('onSubmit() meghívva');
     if (this.orderForm.valid) {
-      this.isSubmitting = true; // A gombot letiltjuk, amíg dolgozunk
-
-      const orderData = this.orderForm.value;
-      // Ha vannak plusz adatok (items, totalPrice), töltsd fel ide
-
-      this.orderService.addOrder(orderData)
+      this.isSubmitting = true;
+      console.log('Form állapot: VALID');
+  
+      const orderData = {
+        ...this.orderForm.value,
+        items: this.orderItems,
+        total: this.total,
+        timestamp: new Date().toISOString()
+      };
+  
+      console.log('Értékek:', orderData);
+  
+      const user = this.cartService['auth'].currentUser;
+      if (!user) {
+        alert('Nem vagy bejelentkezve.');
+        return;
+      }
+  
+      const db = getDatabase();
+      const orderRef = push(ref(db, `orders/${user.uid}`));
+      set(orderRef, orderData)
         .then(() => {
-          // Sikeres mentés után
+          this.cartService.clearCart();
           this.isSubmitting = false;
-          // Átirányítás a "Sikeres rendelés" oldalra
           this.router.navigate(['/order-success']);
         })
-        .catch((err: any) => {
+        .catch((err) => {
           console.error('Hiba a rendelés mentésekor:', err);
+          alert('Hiba történt a rendelés mentésekor.');
           this.isSubmitting = false;
-          // Ide valami hibaüzenet-kezelés
         });
     }
-  }
-}
+  }}

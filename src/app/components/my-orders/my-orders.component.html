@@ -1,0 +1,18 @@
+<h2>Rendeléseim</h2>
+
+<div *ngIf="orders.length > 0; else noOrders">
+  <div *ngFor="let order of orders" style="margin-bottom: 1rem;">
+    <p><strong>Dátum:</strong> {{ order.timestamp }}</p>
+    <ul>
+      <li *ngFor="let item of order.items">
+        {{ item.name }} x{{ item.quantity }} – {{ item.price * item.quantity | currency:'HUF' }}
+      </li>
+    </ul>
+    <p><strong>Összesen:</strong> {{ order.total | currency:'HUF' }}</p>
+    <hr />
+  </div>
+</div>
+
+<ng-template #noOrders>
+  <p>Nincs még rendelésed.</p>
+</ng-template>

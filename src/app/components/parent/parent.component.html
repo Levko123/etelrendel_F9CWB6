@@ -1,0 +1,6 @@
+<h2>Szülő komponens</h2>
+<p>Üzenet a gyermeknek: {{ parentMessage }}</p>
+
+<app-child [message]="parentMessage" (respond)="onChildResponded($event)"></app-child>
+
+<p *ngIf="childResponse">Válasz a gyerektől: {{ childResponse }}</p>

@@ -1,0 +1,11 @@
+<h2>Beérkezett rendelések</h2>
+<div *ngFor="let order of orders" style="margin-bottom: 20px;">
+  <strong>Felhasználó:</strong> {{ order.userId }}<br>
+  <strong>Rendelés:</strong> {{ order.orderId }}<br>
+  <strong>Időpont:</strong> {{ order.timestamp }}<br>
+  <ul>
+    <li *ngFor="let item of order.items">
+      {{ item.name }} - {{ item.quantity }} x {{ item.price }} Ft
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,14 @@
+<div *ngIf="cartItems.length > 0; else empty">
+  <div *ngFor="let item of cartItems">
+    <p><strong>{{ item.name }}</strong> (x{{ item.quantity }}) — {{ item.price * item.quantity | currency:'HUF' }}</p>
+    <button mat-button color="warn" (click)="removeItem(item.id)">Eltávolítás</button>
+  </div>
+
+  <p><strong>Összesen:</strong> {{ getTotal() | currency:'HUF' }}</p>
+
+  <button mat-raised-button color="primary" (click)="goToOrderForm()">Tovább a rendeléshez</button>
+</div>
+
+<ng-template #empty>
+  <p>A kosár üres.</p>
+</ng-template>
